@@ -1,16 +1,16 @@
 from collections import Counter
 import numpy as np
 
-def euclidean_distance(point1, point2):
-    #Calculate the Euclidean distance between two points.
-    return np.sqrt(np.sum((point1 - point2)**2))
+def manhattan_distance(point1, point2):
+    # Calculate the Manhattan distance between two points
+    return np.sum(np.abs(point1 - point2))
 
-def knn_classifier(training_data, labels, new_point, k):
-    #k-Nearest Neighbors classifier.
+def knn_classifier_manhattan(training_data, labels, new_point, k):
+    # k-Nearest Neighbors classifier using Manhattan distance
     distances = []
     for i, point in enumerate(training_data):
-        # Calculate the Euclidean distance between the new point and each point in the training data
-        distance = euclidean_distance(point, new_point)
+        # Calculate the Manhattan distance between the new point and each point in the training data
+        distance = manhattan_distance(point, new_point)
         # Store the distance along with the corresponding label
         distances.append((distance, labels[i]))
     
@@ -27,14 +27,11 @@ def knn_classifier(training_data, labels, new_point, k):
     # Return the label with the highest count
     return max(label_counts, key=label_counts.get)
 
-
+# Example usage
 training_data = np.array([[1, 2], [2, 3], [3, 4], [4, 5], [5, 6]])
 labels = ['A', 'A', 'A', 'B', 'B']
-# New data point to classify
 new_point = np.array([3.5, 4.5])
-# Number of neighbors to consider
 k = 2
 
-# Classify the new point using k-NN
-predicted_label = knn_classifier(training_data, labels, new_point, k)
-print("Predicted label for the new point:", predicted_label)
+predicted_label = knn_classifier_manhattan(training_data, labels, new_point, k)
+print("Predicted label for the new point using Manhattan distance:", predicted_label)
